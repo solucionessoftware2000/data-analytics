@@ -4,6 +4,8 @@ The dashboard has one page per business question. Every page follows the same la
 
 ## 1. Import the data
 
+**Before importing, set the import locale.** The CSV files use a point as the decimal separator. If Windows is set to a language that uses a comma, Power BI may read `137.04` as `13704`. Go to **File → Options and settings → Options → Current file → Regional settings** and set **Locale for import** to **English (United States)**. This applies to every file loaded afterwards.
+
 Run the six notebooks first, then use **Get data → Text/CSV** to load these files from `data/processed/`:
 
 | File | Used on page |
@@ -21,9 +23,11 @@ Run the six notebooks first, then use **Get data → Text/CSV** to load these fi
 | `customer_return_scores.csv` | Customers |
 | `churn_model_metrics.csv` | Customers |
 
-**Decimal separator.** The CSV files use a point as the decimal separator. If Windows is set to a language that uses a comma, Power BI may read `137.04` as `13704`. In Power Query, change the type of every numeric column with **Change type → Using locale → English (United States)**.
+If a numeric column still looks wrong, change its type in Power Query with **Change type → Using locale → English (United States)**.
 
 In Power Query, also set `month` columns to *Date* and `customer_zip_prefix`, `zip_prefix` and `seller_zip_prefix` to *Text*, so the leading zeros are kept.
+
+Apply the project theme (section 5) before building any visual: colors set by hand later override the theme.
 
 ## 2. Relationships
 
@@ -39,11 +43,11 @@ In the model view, create these one-to-many relationships:
 
 ## 3. Measures
 
-Create these measures (Home → New measure):
+Create these measures (Home → New measure). Measure names are not case-sensitive and cannot repeat a column name of their own table, which is why the first two are called `Total revenue` and `Total units` instead of `Revenue` and `Units`.
 
 ```DAX
-Revenue = SUM ( category_monthly[revenue] )
-Units = SUM ( category_monthly[units] )
+Total revenue = SUM ( category_monthly[revenue] )
+Total units = SUM ( category_monthly[units] )
 Products = DISTINCTCOUNT ( product_abc[product_id] )
 Class A share of products = DIVIDE ( CALCULATE ( [Products], product_abc[abc_class] = "A" ), [Products] )
 Slow movers = CALCULATE ( [Products], product_abc[is_slow_mover] = TRUE () )
@@ -58,7 +62,7 @@ Churn rate = 1 - [Return rate]
 
 - **Title:** Which products and categories sell the most and the least?
 - **Subtitle:** 25.9% of the products bring in 80% of revenue.
-- **Cards:** Revenue, Products, Class A share of products, Slow movers.
+- **Cards:** Total revenue, Products, Class A share of products, Slow movers.
 - **Bar chart:** revenue by category (`category_summary`), sorted, top 15.
 - **Line chart:** revenue by month (`category_monthly`), with a category slicer.
 - **Table:** `category_summary` with revenue share, rank by revenue, rank by units and change in share (`change_pp`), with conditional formatting on `change_pp`.
@@ -66,8 +70,30 @@ Churn rate = 1 - [Return rate]
 ### Page 2 · Inventory
 
 - **Title:** How much will sell in the next 3 months, and how much inventory is needed?
-- **Subtitle:** A 3-month moving average forecasts about 7,260 units per month, with a 7.8% error.
-- **Line chart:** units per month from `monthly_sales` (complete months only, filter `is_complete_month = True`) and the forecast from `forecast_total`, with `lower_units` and `upper_units` as the error band.
+- **Subtitle:** A 3-month moving average forecasts 7,259 units per month, with a 7.8% error.
+- **Line chart:** units per month from `monthly_sales` (complete months only) and the forecast from `forecast_total`, with `lower_units` and `upper_units` as the range. The two tables have no relationship, so first combine them in a calculated table (Modeling → New table) and build the chart from it, with `month` on the X-axis and the four unit columns on the Y-axis:
+
+```DAX
+Units timeline =
+UNION (
+    SELECTCOLUMNS (
+        FILTER ( monthly_sales, monthly_sales[is_complete_month] = TRUE () ),
+        "month", monthly_sales[month],
+        "actual_units", monthly_sales[units],
+        "forecast_units", BLANK (),
+        "lower_units", BLANK (),
+        "upper_units", BLANK ()
+    ),
+    SELECTCOLUMNS (
+        forecast_total,
+        "month", forecast_total[month],
+        "actual_units", BLANK (),
+        "forecast_units", forecast_total[forecast_units],
+        "lower_units", forecast_total[lower_units],
+        "upper_units", forecast_total[upper_units]
+    )
+)
+```
 - **Bar chart:** `rolling_mape_pct` by model from `model_comparison`.
 - **Table:** `forecast_categories` for one month, with forecast, safety stock, suggested stock and `wape_pct`, highlighting `wape_pct` above 40% as unreliable.
 
@@ -90,7 +116,7 @@ Churn rate = 1 - [Return rate]
 
 ## 5. Style
 
-Use the same colors as the notebooks so the dashboard and the report look like one project:
+Apply the project theme first: **Design → Import theme** (in older versions of Power BI Desktop, **View → Themes → Browse for themes**) and select `dashboard/theme.json`. It sets the colors and fonts of every visual. The theme uses the same colors as the notebooks, so the dashboard and the report look like one project:
 
 | Role | Color |
 |---|---|
