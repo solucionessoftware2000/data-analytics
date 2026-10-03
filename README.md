@@ -13,7 +13,7 @@ An agricultural machinery business needs to decide which items to push or reduce
 | # | Business question | Short answer | Notebook |
 |---|---|---|---|
 | 1 | Which products and categories sell the most and the least? | 25.9% of the products bring in 80% of revenue, while 6,707 slow movers (20.9% of the catalog) bring in 2.6%. | [03_products](notebooks/03_products.ipynb) |
-| 2 | How much will sell in the next 3 months, and how much inventory is needed? | About 7,260 units per month. A 3-month moving average (7.8% error) beat Holt and ARIMA, and each category gets its own safety stock. | [04_forecast_inventory](notebooks/04_forecast_inventory.ipynb) |
+| 2 | How much will sell in the next 3 months, and how much inventory is needed? | About 7,259 units per month. A 3-month moving average (7.8% error) beat Holt and ARIMA, and each category gets its own safety stock. | [04_forecast_inventory](notebooks/04_forecast_inventory.ipynb) |
 | 3 | Where do customers come from, and where should a new branch open? | 41.9% of customers are in the state of São Paulo. Bahia is the most robust candidate, and Salvador the best-supported city. | [05_geographic](notebooks/05_geographic.ipynb) |
 | 4 | Why do some customers not come back, and who is about to leave? | Churn is 98.25%. The first purchase predicts little (ROC AUC 0.571), but returning is associated with location, everyday categories and the delivery experience. | [06_customer_churn](notebooks/06_customer_churn.ipynb) |
 
@@ -108,7 +108,27 @@ The [application guide](docs/application_guide.md) explains which columns the bu
 
 ## Dashboard
 
-*In progress.* A Power BI dashboard with one page per business question (**Products**, **Inventory**, **Locations** and **Customers**) built from the CSV files in `data/processed/`, following the [dashboard build guide](docs/dashboard_guide.md).
+A Power BI dashboard with one page per business question, built from the CSV files in `data/processed/`. Each page shows the question as its title and the main insight as its subtitle, so the numbers match the notebooks. Open [`dashboard/sales_dashboard.pbix`](dashboard/sales_dashboard.pbix) in Power BI Desktop, or rebuild it step by step with the [dashboard build guide](docs/dashboard_guide.md). The same report is also saved as a Power BI project ([`sales_dashboard.pbip`](dashboard/sales_dashboard.pbip)), so every page, visual and measure can be read as text.
+
+**Products.** Key figures, revenue by category and by month, and the change in each category's share of revenue. The category filter updates the whole page.
+
+![Products page](dashboard/screenshots/01_products.png)
+
+**Inventory.** Units sold per month with the forecast and its range, the error of each model and the suggested stock by category, with unreliable forecasts in red.
+
+![Inventory page](dashboard/screenshots/02_inventory.png)
+
+**Locations.** Customers by city, the branch score of the top 10 states, distance against delivery days, and the main city of the five best-scored states.
+
+![Locations page](dashboard/screenshots/03_locations.png)
+
+**Customers.** Cohort figures, return rate by region and by first delivery, and how each region's recent customers split across the model's risk groups.
+
+![Customers page](dashboard/screenshots/04_customers.png)
+
+## Final report
+
+[`reports/final_report.pdf`](reports/final_report.pdf) brings the whole project together: executive summary, data and cleaning, the four answers with their evidence, the churn definition in detail, the dashboard, the analytical decisions, limitations and an annex with every SQL query.
 
 ## Repository structure
 
@@ -120,8 +140,9 @@ The [application guide](docs/application_guide.md) explains which columns the bu
 ├── notebooks/          # One notebook per phase (01 to 06)
 ├── sql/                # SQL queries used by the notebooks
 ├── reports/
+│   ├── final_report.pdf  # Final report
 │   └── figures/        # Charts exported by the notebooks
-├── dashboard/          # Power BI file and screenshots
+├── dashboard/          # Power BI report (.pbix and .pbip project), theme and screenshots
 ├── docs/               # Application guide and dashboard build guide
 ├── requirements.txt    # Python dependencies
 └── README.md
