@@ -1,0 +1,78 @@
+table forecast_categories
+	lineageTag: 12238a1f-c5e7-4e49-81eb-24cc21c510c3
+
+	column category
+		dataType: string
+		lineageTag: eeac9a20-2959-4a26-b37b-ab6b73c891fa
+		summarizeBy: none
+		sourceColumn: category
+
+		annotation SummarizationSetBy = Automatic
+
+	column month
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 9a1bbeac-0151-4d5b-bdc8-9c6cd0ae9384
+		summarizeBy: none
+		sourceColumn: month
+
+		variation Variación
+			isDefault
+			relationship: 2a3311de-373b-444f-8125-c4762435233c
+			defaultHierarchy: LocalDateTable_4bd14151-538a-42cf-b18d-6699b0502b44.'Jerarquía de fechas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column forecast_per_month
+		dataType: double
+		lineageTag: 1064f2c4-3c72-4262-b0dd-81d393b4f5d4
+		summarizeBy: sum
+		sourceColumn: forecast_per_month
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column safety_stock
+		dataType: double
+		lineageTag: 9cdf3a0f-4d3d-449a-9802-a7ae964513e9
+		summarizeBy: sum
+		sourceColumn: safety_stock
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column suggested_monthly_stock
+		dataType: int64
+		formatString: 0
+		lineageTag: de0a707c-78df-4026-b5aa-13e5949e320f
+		summarizeBy: sum
+		sourceColumn: suggested_monthly_stock
+
+		annotation SummarizationSetBy = Automatic
+
+	column wape_pct
+		dataType: double
+		lineageTag: 53132811-08a4-4683-84b5-7123a28ca8ed
+		summarizeBy: sum
+		sourceColumn: wape_pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition forecast_categories = m
+		mode: import
+		source =
+				let
+				    Origen = Csv.Document(File.Contents("C:\Users\gianp\OneDrive\Desktop\proyects\data-analytics\data\processed\forecast_categories.csv"),[Delimiter=",", Columns=6, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Encabezados promovidos" = Table.PromoteHeaders(Origen, [PromoteAllScalars=true]),
+				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos",{{"category", type text}, {"month", type date}, {"forecast_per_month", type number}, {"safety_stock", type number}, {"suggested_monthly_stock", Int64.Type}, {"wape_pct", type number}})
+				in
+				    #"Tipo cambiado"
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,38 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "adb5b48f92eca3e9613f",
+  "position": {
+    "x": 1440,
+    "y": 140,
+    "z": 4,
+    "height": 170,
+    "width": 450,
+    "tabOrder": 4
+  },
+  "visual": {
+    "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "churn_model_metrics"
+                    }
+                  },
+                  "Property": "Returners found in the top 10%"
+                }
+              },
+              "queryRef": "churn_model_metrics.Returners found in the top 10%",
+              "nativeQueryRef": "Returners found in the top 10%"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

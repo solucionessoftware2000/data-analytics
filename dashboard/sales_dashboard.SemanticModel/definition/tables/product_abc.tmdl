@@ -1,0 +1,165 @@
+table product_abc
+	lineageTag: 3a17a52c-97b8-4d4f-bbf8-5fcc3358a4d3
+
+	measure Products = DISTINCTCOUNT ( product_abc[product_id] )
+		formatString: 0
+		lineageTag: f476ac7b-4355-4d4c-ac9c-84d8ab971013
+
+	measure 'Class A share of products' = DIVIDE ( CALCULATE ( [Products], product_abc[abc_class] = "A" ), [Products] )
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		lineageTag: 7090f8b7-e7a9-4f45-b981-062dff51dcb7
+
+	measure 'Slow movers' = CALCULATE ( [Products], product_abc[is_slow_mover] = TRUE () )
+		formatString: 0
+		lineageTag: b360e5a1-ad30-4d57-94fc-9c6af0874c5d
+
+	measure 'Products sold' = FORMAT ( [Products], "#,0", "en-US" )
+		lineageTag: 94e6004c-34ff-4787-a8ff-ed41ac08d85f
+
+	measure 'Class A products (80% of revenue)' = FORMAT ( [Class A share of products], "0.0%", "en-US" )
+		lineageTag: acf3986f-2ba2-4e76-bf4a-7f83ad8fa955
+
+	measure 'Slow-moving products' = FORMAT ( [Slow movers], "#,0", "en-US" )
+		lineageTag: e769ee49-e035-4a86-8450-dd6f9d6535b6
+
+	column product_id
+		dataType: string
+		lineageTag: 31fce804-4b4a-4528-9637-5e4f01b13696
+		summarizeBy: none
+		sourceColumn: product_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column category
+		dataType: string
+		lineageTag: 9dde5e6f-c383-43e2-94fb-76004ea8bd1d
+		summarizeBy: none
+		sourceColumn: category
+
+		annotation SummarizationSetBy = Automatic
+
+	column units
+		dataType: int64
+		formatString: 0
+		lineageTag: b30d5633-d0f3-4a31-95b0-136ae31dcfdd
+		summarizeBy: sum
+		sourceColumn: units
+
+		annotation SummarizationSetBy = Automatic
+
+	column orders
+		dataType: int64
+		formatString: 0
+		lineageTag: 4d311e7a-aeaf-41c5-a206-19b3ebe5bb0d
+		summarizeBy: sum
+		sourceColumn: orders
+
+		annotation SummarizationSetBy = Automatic
+
+	column revenue
+		dataType: double
+		lineageTag: a23e39d9-7909-45a8-8b17-be280bc659a6
+		summarizeBy: sum
+		sourceColumn: revenue
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column avg_price
+		dataType: double
+		lineageTag: bf69ecf9-7568-4466-b6e2-3e609049319e
+		summarizeBy: sum
+		sourceColumn: avg_price
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column first_sale
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 966ae634-ba18-4b83-8b4f-f324697f41b5
+		summarizeBy: none
+		sourceColumn: first_sale
+
+		variation Variación
+			isDefault
+			relationship: e24d78e6-006b-43db-9731-8bf8020708eb
+			defaultHierarchy: LocalDateTable_56c7a6e8-2f60-4ded-97c0-e008ac90f7af.'Jerarquía de fechas'
+
+		annotation SummarizationSetBy = Automatic
+
+	column last_sale
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 20be9448-71cc-43b8-b870-35b89ab05d19
+		summarizeBy: none
+		sourceColumn: last_sale
+
+		variation Variación
+			isDefault
+			relationship: d683e0a3-278c-4522-85dc-d6f430e51a0c
+			defaultHierarchy: LocalDateTable_996de8e8-f883-490f-80c8-81fc064e1a40.'Jerarquía de fechas'
+
+		annotation SummarizationSetBy = Automatic
+
+	column revenue_pct
+		dataType: double
+		lineageTag: cb2a507b-f19e-4257-aedc-e2112a0a2cee
+		summarizeBy: sum
+		sourceColumn: revenue_pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column cumulative_pct
+		dataType: double
+		lineageTag: 010f6350-ac29-44e0-8eac-7f355abd9969
+		summarizeBy: sum
+		sourceColumn: cumulative_pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column abc_class
+		dataType: string
+		lineageTag: 89849870-b46d-43db-96b5-6ff6f218acc7
+		summarizeBy: none
+		sourceColumn: abc_class
+
+		annotation SummarizationSetBy = Automatic
+
+	column share_of_products_pct
+		dataType: double
+		lineageTag: 5b0db3d0-c894-4536-91bd-087879605338
+		summarizeBy: sum
+		sourceColumn: share_of_products_pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column is_slow_mover
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: f3756bf7-bb3f-48c3-af03-7fe626430b27
+		summarizeBy: none
+		sourceColumn: is_slow_mover
+
+		annotation SummarizationSetBy = Automatic
+
+	partition product_abc = m
+		mode: import
+		source =
+				let
+				    Origen = Csv.Document(File.Contents("C:\Users\gianp\OneDrive\Desktop\proyects\data-analytics\data\processed\product_abc.csv"),[Delimiter=",", Columns=13, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Encabezados promovidos" = Table.PromoteHeaders(Origen, [PromoteAllScalars=true]),
+				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos",{{"product_id", type text}, {"category", type text}, {"units", Int64.Type}, {"orders", Int64.Type}, {"revenue", type number}, {"avg_price", type number}, {"first_sale", type datetime}, {"last_sale", type datetime}, {"revenue_pct", type number}, {"cumulative_pct", type number}, {"abc_class", type text}, {"share_of_products_pct", type number}, {"is_slow_mover", type logical}})
+				in
+				    #"Tipo cambiado"
+
+	annotation PBI_ResultType = Table
+

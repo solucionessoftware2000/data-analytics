@@ -1,0 +1,70 @@
+table forecast_total
+	lineageTag: 7185df9e-c1ad-4586-9128-bbbe93a3aafa
+
+	column month
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 142cd2ff-6c94-4e8a-bf84-11f4f2169b60
+		summarizeBy: none
+		sourceColumn: month
+
+		variation Variación
+			isDefault
+			relationship: f6034960-62a6-48e0-afda-ecb98b82d07b
+			defaultHierarchy: LocalDateTable_799d87a2-f2cb-4ece-b27e-f90aee933a9d.'Jerarquía de fechas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column forecast_units
+		dataType: int64
+		formatString: 0
+		lineageTag: 9cd3b3fe-7fb4-45f4-a18f-de7efe5c363a
+		summarizeBy: sum
+		sourceColumn: forecast_units
+
+		annotation SummarizationSetBy = Automatic
+
+	column lower_units
+		dataType: double
+		lineageTag: 03e7f20f-0e17-4497-bad3-8a5069119070
+		summarizeBy: sum
+		sourceColumn: lower_units
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column upper_units
+		dataType: double
+		lineageTag: 108c81db-b19b-4945-924c-2e7883dfee98
+		summarizeBy: sum
+		sourceColumn: upper_units
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column forecast_revenue
+		dataType: double
+		lineageTag: bc783c7b-05e2-4e0d-b439-9f5698ab5776
+		summarizeBy: sum
+		sourceColumn: forecast_revenue
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition forecast_total = m
+		mode: import
+		source =
+				let
+				    Origen = Csv.Document(File.Contents("C:\Users\gianp\OneDrive\Desktop\proyects\data-analytics\data\processed\forecast_total.csv"),[Delimiter=",", Columns=5, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Encabezados promovidos" = Table.PromoteHeaders(Origen, [PromoteAllScalars=true]),
+				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos",{{"month", type date}, {"forecast_units", Int64.Type}, {"lower_units", type number}, {"upper_units", type number}, {"forecast_revenue", type number}})
+				in
+				    #"Tipo cambiado"
+
+	annotation PBI_ResultType = Table
+

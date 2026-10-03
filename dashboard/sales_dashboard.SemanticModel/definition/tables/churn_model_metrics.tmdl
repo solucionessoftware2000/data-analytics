@@ -1,0 +1,79 @@
+table churn_model_metrics
+	lineageTag: 12af4a2a-60a8-40c9-b6ae-b72227400fc7
+
+	measure 'Model ROC AUC (random forest)' = FORMAT ( CALCULATE ( MAX ( churn_model_metrics[roc_auc] ), churn_model_metrics[model] = "Random forest" ), "0.000", "en-US" )
+		lineageTag: 799bf776-f4c7-4a0a-b552-bb3273fb21b4
+
+	measure 'Returners found in the top 10%' = FORMAT ( CALCULATE ( MAX ( churn_model_metrics[top_10pct_capture] ), churn_model_metrics[model] = "Random forest" ), "0.0%", "en-US" )
+		lineageTag: 969e5a61-2804-4e6e-87d5-2572cefc8261
+
+	column model
+		dataType: string
+		lineageTag: 2a8380ec-2c07-40c9-a47e-f55c63d811d3
+		summarizeBy: none
+		sourceColumn: model
+
+		annotation SummarizationSetBy = Automatic
+
+	column roc_auc
+		dataType: double
+		lineageTag: a19757be-c166-4e53-aafd-b7dd5c8ddbd2
+		summarizeBy: sum
+		sourceColumn: roc_auc
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column pr_auc
+		dataType: double
+		lineageTag: cc9a069f-0ece-4f56-84f5-96dca1821c8b
+		summarizeBy: sum
+		sourceColumn: pr_auc
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column base_rate
+		dataType: double
+		lineageTag: 0a2c50fa-24b5-4b71-9b2d-bb474ba96392
+		summarizeBy: sum
+		sourceColumn: base_rate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column top_10pct_capture
+		dataType: double
+		lineageTag: f7db3634-62b9-4293-bfca-7210a9a00c36
+		summarizeBy: sum
+		sourceColumn: top_10pct_capture
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column top_10pct_precision
+		dataType: double
+		lineageTag: f19bdcac-5b5f-4387-8e8d-77b19c1770d2
+		summarizeBy: sum
+		sourceColumn: top_10pct_precision
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition churn_model_metrics = m
+		mode: import
+		source =
+				let
+				    Origen = Csv.Document(File.Contents("C:\Users\gianp\OneDrive\Desktop\proyects\data-analytics\data\processed\churn_model_metrics.csv"),[Delimiter=",", Columns=6, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Encabezados promovidos" = Table.PromoteHeaders(Origen, [PromoteAllScalars=true]),
+				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos",{{"model", type text}, {"roc_auc", type number}, {"pr_auc", type number}, {"base_rate", type number}, {"top_10pct_capture", type number}, {"top_10pct_precision", type number}})
+				in
+				    #"Tipo cambiado"
+
+	annotation PBI_ResultType = Table
+

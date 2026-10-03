@@ -25,3 +25,7 @@ venv/
 Thumbs.db
 desktop.ini
 .DS_Store
+
+# Power BI project: local settings and data cache
+dashboard/**/.pbi/localSettings.json
+dashboard/**/.pbi/cache.abf

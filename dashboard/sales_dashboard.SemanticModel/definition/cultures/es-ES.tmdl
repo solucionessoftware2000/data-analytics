@@ -1,0 +1,242 @@
+cultureInfo es-ES
+
+	linguisticMetadata =
+			{
+			  "Version": "2.0.0",
+			  "Language": "en-US",
+			  "Entities": {
+			    "category_summary.category": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "category_summary",
+			          "ConceptualProperty": "category"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Category": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "forecast_categories.category": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "forecast_categories",
+			          "ConceptualProperty": "category"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Category": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "state_scores.customer_state": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "state_scores",
+			          "ConceptualProperty": "customer_state"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "State": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "city_summary.customer_city": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "city_summary",
+			          "ConceptualProperty": "customer_city"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "City": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "city_summary.customer_state": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "city_summary",
+			          "ConceptualProperty": "customer_state"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "State": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "customer_return_scores.region": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "customer_return_scores",
+			          "ConceptualProperty": "region"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Region": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "customer_return_scores.risk_group": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "customer_return_scores",
+			          "ConceptualProperty": "risk_group"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Chance of returning": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "customer_return_scores.recent_customers": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "customer_return_scores",
+			          "ConceptualProperty": "Recent customers"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Recent customers": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "churn_dataset.delivery_status": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "churn_dataset",
+			          "ConceptualProperty": "delivery_status"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Delivery status": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "churn_dataset.return_rate": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "churn_dataset",
+			          "ConceptualProperty": "Return rate"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Return rate": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "churn_dataset.region": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "churn_dataset",
+			          "ConceptualProperty": "region"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Region": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    }
+			  }
+			}
+		contentType: json
+

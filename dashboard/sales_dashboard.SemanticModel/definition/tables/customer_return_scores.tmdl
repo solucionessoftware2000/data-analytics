@@ -1,0 +1,77 @@
+table customer_return_scores
+	lineageTag: 924c2bb4-1065-44d9-acdf-e80fd32319fe
+
+	measure 'Recent customers' = COUNTROWS ( customer_return_scores )
+		formatString: #,0
+		lineageTag: 52d2a407-2943-4c3b-a2bc-207ad272e3ff
+
+	column customer_unique_id
+		dataType: string
+		lineageTag: 4cf0ed9e-d093-433c-8ddd-2809c795da6c
+		summarizeBy: none
+		sourceColumn: customer_unique_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column purchase_day
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 4f1ffe29-c6d9-4f85-a202-aada4d8994c8
+		summarizeBy: none
+		sourceColumn: purchase_day
+
+		variation Variación
+			isDefault
+			relationship: 11b729f2-984e-4662-8250-1b2644994013
+			defaultHierarchy: LocalDateTable_214897e2-8e7d-4b53-b160-6d6b5c87c906.'Jerarquía de fechas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column region
+		dataType: string
+		lineageTag: 21b201b6-056c-41af-a3b6-020b7941ab15
+		summarizeBy: none
+		sourceColumn: region
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_state
+		dataType: string
+		lineageTag: dfa33507-bfb8-41d3-8d96-5664f00242d9
+		summarizeBy: none
+		sourceColumn: customer_state
+
+		annotation SummarizationSetBy = Automatic
+
+	column return_score
+		dataType: double
+		lineageTag: e4affbf0-21e9-480e-9754-44693f33891c
+		summarizeBy: sum
+		sourceColumn: return_score
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column risk_group
+		dataType: string
+		lineageTag: 3ee7b13f-8c5a-45ba-8ae5-e62d647b25fe
+		summarizeBy: none
+		sourceColumn: risk_group
+
+		annotation SummarizationSetBy = Automatic
+
+	partition customer_return_scores = m
+		mode: import
+		source =
+				let
+				    Origen = Csv.Document(File.Contents("C:\Users\gianp\OneDrive\Desktop\proyects\data-analytics\data\processed\customer_return_scores.csv"),[Delimiter=",", Columns=6, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Encabezados promovidos" = Table.PromoteHeaders(Origen, [PromoteAllScalars=true]),
+				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos",{{"customer_unique_id", type text}, {"purchase_day", type date}, {"region", type text}, {"customer_state", type text}, {"return_score", type number}, {"risk_group", type text}})
+				in
+				    #"Tipo cambiado"
+
+	annotation PBI_ResultType = Table
+

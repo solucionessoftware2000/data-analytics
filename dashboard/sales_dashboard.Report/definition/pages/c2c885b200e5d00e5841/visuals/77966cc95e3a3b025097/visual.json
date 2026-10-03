@@ -1,0 +1,38 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "77966cc95e3a3b025097",
+  "position": {
+    "x": 750,
+    "y": 140,
+    "z": 3,
+    "height": 170,
+    "width": 340,
+    "tabOrder": 3
+  },
+  "visual": {
+    "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "product_abc"
+                    }
+                  },
+                  "Property": "Class A products (80% of revenue)"
+                }
+              },
+              "queryRef": "product_abc.Class A products (80% of revenue)",
+              "nativeQueryRef": "Class A products (80% of revenue)"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

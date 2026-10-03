@@ -1,0 +1,56 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "041cd1d0460e28003bd0",
+  "position": {
+    "x": 1110,
+    "y": 140,
+    "z": 4,
+    "height": 170,
+    "width": 340,
+    "tabOrder": 4
+  },
+  "visual": {
+    "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "product_abc"
+                    }
+                  },
+                  "Property": "Slow-moving products"
+                }
+              },
+              "queryRef": "product_abc.Slow-moving products",
+              "nativeQueryRef": "Slow-moving products"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "smallMultiplesHeader": [
+        {
+          "properties": {
+            "displayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "id": "default"
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

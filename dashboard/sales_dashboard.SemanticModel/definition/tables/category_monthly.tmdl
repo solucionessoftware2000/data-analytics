@@ -1,0 +1,79 @@
+table category_monthly
+	lineageTag: 5967a72e-a197-44ce-9403-bb45b498069f
+
+	measure 'Total revenue' = SUM ( category_monthly[revenue] )
+		lineageTag: 1d8ca8ce-3ed7-407d-9f4d-324a2a267f1d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Total units' = SUM ( category_monthly[units] )
+		formatString: 0
+		lineageTag: bbd63c45-a0c4-45f9-9c19-f507ecbea60e
+
+	measure 'Revenue (R$)' = FORMAT ( [Total revenue], "#,0", "en-US" )
+		lineageTag: 2017bd6c-dd0d-46ab-a808-38fa4a09e331
+
+	column month
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 708e3d51-04d0-4056-bf9f-1b733a0e2250
+		summarizeBy: none
+		sourceColumn: month
+
+		variation Variación
+			isDefault
+			relationship: 02677ec4-d423-48a6-b706-7f2cd3f66e6d
+			defaultHierarchy: LocalDateTable_8ff675bd-7ce0-4428-bbc5-7591f4125052.'Jerarquía de fechas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column category
+		dataType: string
+		lineageTag: 5684f164-3fed-4ed4-bd1c-3c141184ba15
+		summarizeBy: none
+		sourceColumn: category
+
+		annotation SummarizationSetBy = Automatic
+
+	column units
+		dataType: int64
+		formatString: 0
+		lineageTag: 9f07838c-892a-488a-ab9e-58d1595ea2d9
+		summarizeBy: sum
+		sourceColumn: units
+
+		annotation SummarizationSetBy = Automatic
+
+	column revenue
+		dataType: double
+		lineageTag: 9bd8baca-9364-4afa-b30c-b1a1d1e267c9
+		summarizeBy: sum
+		sourceColumn: revenue
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column is_complete_month
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: fbcbb10f-8949-44d7-af50-ec155eed2628
+		summarizeBy: none
+		sourceColumn: is_complete_month
+
+		annotation SummarizationSetBy = Automatic
+
+	partition category_monthly = m
+		mode: import
+		source =
+				let
+				    Origen = Csv.Document(File.Contents("C:\Users\gianp\OneDrive\Desktop\proyects\data-analytics\data\processed\category_monthly.csv"),[Delimiter=",", Columns=5, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Encabezados promovidos" = Table.PromoteHeaders(Origen, [PromoteAllScalars=true]),
+				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos",{{"month", type date}, {"category", type text}, {"units", Int64.Type}, {"revenue", type number}, {"is_complete_month", type logical}})
+				in
+				    #"Tipo cambiado"
+
+	annotation PBI_ResultType = Table
+

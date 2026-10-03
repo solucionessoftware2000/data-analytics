@@ -1,0 +1,89 @@
+table city_summary
+	lineageTag: e9f90ae7-79fb-4bed-990f-d358cdf2dcbd
+
+	column customer_city
+		dataType: string
+		lineageTag: ad95e4e5-032d-4e90-8fc6-8d17efa23f4b
+		summarizeBy: none
+		sourceColumn: customer_city
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_state
+		dataType: string
+		lineageTag: 74bf208e-03d1-40c5-9585-8f533708e841
+		summarizeBy: none
+		sourceColumn: customer_state
+
+		annotation SummarizationSetBy = Automatic
+
+	column customers
+		dataType: int64
+		formatString: 0
+		lineageTag: a9c3829a-5984-45e1-9138-84b8f096fe26
+		summarizeBy: sum
+		sourceColumn: customers
+
+		annotation SummarizationSetBy = Automatic
+
+	column orders
+		dataType: int64
+		formatString: 0
+		lineageTag: 8bd85264-6bc1-4a50-8366-afa7554d96e9
+		summarizeBy: sum
+		sourceColumn: orders
+
+		annotation SummarizationSetBy = Automatic
+
+	column revenue
+		dataType: double
+		lineageTag: 54c39b3c-1ae9-4878-b3e0-8df1787c1861
+		summarizeBy: sum
+		sourceColumn: revenue
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column lat
+		dataType: double
+		lineageTag: 57f1e365-36fa-4059-8787-407d86e6378a
+		summarizeBy: sum
+		sourceColumn: lat
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column lng
+		dataType: double
+		lineageTag: 8b0e43ed-10fc-4ce6-92fc-2c1dd33159bd
+		summarizeBy: sum
+		sourceColumn: lng
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column share_of_state_customers_pct
+		dataType: double
+		lineageTag: cfe50865-5a57-4b9e-bb9f-35a553722596
+		summarizeBy: sum
+		sourceColumn: share_of_state_customers_pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition city_summary = m
+		mode: import
+		source =
+				let
+				    Origen = Csv.Document(File.Contents("C:\Users\gianp\OneDrive\Desktop\proyects\data-analytics\data\processed\city_summary.csv"),[Delimiter=",", Columns=8, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Encabezados promovidos" = Table.PromoteHeaders(Origen, [PromoteAllScalars=true]),
+				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos",{{"customer_city", type text}, {"customer_state", type text}, {"customers", Int64.Type}, {"orders", Int64.Type}, {"revenue", type number}, {"lat", type number}, {"lng", type number}, {"share_of_state_customers_pct", type number}})
+				in
+				    #"Tipo cambiado"
+
+	annotation PBI_ResultType = Table
+

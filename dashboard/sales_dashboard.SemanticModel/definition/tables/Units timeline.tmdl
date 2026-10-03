@@ -1,0 +1,82 @@
+table 'Units timeline'
+	lineageTag: ed59b08f-acd2-49c6-99a6-fd061e0586ae
+
+	column month
+		formatString: General Date
+		lineageTag: 449a79fb-6b80-42cd-9e58-8beb81c23390
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [month]
+
+		variation Variación
+			isDefault
+			relationship: 8ccbe366-c824-4dc4-ba79-81fbe74c7913
+			defaultHierarchy: LocalDateTable_5744e00c-5e61-4eb3-9289-c2fa2cfb5b39.'Jerarquía de fechas'
+
+		annotation SummarizationSetBy = Automatic
+
+	column actual_units
+		formatString: 0
+		lineageTag: be706dc3-ef6f-4bdd-ae58-2196a6f1b1c7
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [actual_units]
+
+		annotation SummarizationSetBy = Automatic
+
+	column forecast_units
+		formatString: 0
+		lineageTag: 95da7a8d-d299-49a1-a599-ff8986ca10ac
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [forecast_units]
+
+		annotation SummarizationSetBy = Automatic
+
+	column lower_units
+		lineageTag: 2eed74f6-907f-413e-ac6c-7d896926300a
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [lower_units]
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column upper_units
+		lineageTag: 63c28d41-ce25-40a1-bf98-66cbd07db9ff
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [upper_units]
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition 'Units timeline' = calculated
+		mode: import
+		source = ```
+				
+				UNION (
+				    SELECTCOLUMNS (
+				        FILTER ( monthly_sales, monthly_sales[is_complete_month] = TRUE () ),
+				        "month", monthly_sales[month],
+				        "actual_units", monthly_sales[units],
+				        "forecast_units", BLANK (),
+				        "lower_units", BLANK (),
+				        "upper_units", BLANK ()
+				    ),
+				    SELECTCOLUMNS (
+				        forecast_total,
+				        "month", forecast_total[month],
+				        "actual_units", BLANK (),
+				        "forecast_units", forecast_total[forecast_units],
+				        "lower_units", forecast_total[lower_units],
+				        "upper_units", forecast_total[upper_units]
+				    )
+				)
+				
+				```
+
+	annotation PBI_Id = 46f865b0d9d24bda822ef5b0080b8f07
+

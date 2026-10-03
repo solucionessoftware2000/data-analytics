@@ -1,0 +1,247 @@
+table churn_dataset
+	lineageTag: 93bf49da-2090-47ef-8265-795553f7eba6
+
+	measure 'Customers in cohort' = COUNTROWS ( churn_dataset )
+		formatString: 0
+		lineageTag: e223c37a-64d5-4ead-9cab-8db963a72bdc
+
+	measure 'Return rate' = AVERAGE ( churn_dataset[returned] )
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		lineageTag: fd522013-d8f0-4b05-9170-0ce167bfdc31
+
+	measure 'Churn rate' = 1 - [Return rate]
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		lineageTag: 4ee13888-33cc-463b-8c36-fd623643c84c
+
+	measure 'Customers analyzed' = FORMAT ( [Customers in cohort], "#,0", "en-US" )
+		lineageTag: 7550139f-fc1e-4bd6-b3da-2d5ab67c02cc
+
+	measure 'Did not come back within 180 days' = FORMAT ( [Churn rate], "0.00%", "en-US" )
+		lineageTag: c8ad2452-4860-44f2-ac3c-00b7005e73be
+
+	column customer_unique_id
+		dataType: string
+		lineageTag: f2418ed3-7c3e-4cbb-a6f8-818fee1c97bd
+		summarizeBy: none
+		sourceColumn: customer_unique_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column purchase_day
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: fa844bd2-1861-4c6f-b7f0-4f5bc6d78a96
+		summarizeBy: none
+		sourceColumn: purchase_day
+
+		variation Variación
+			isDefault
+			relationship: a7a7d8cb-bfe6-4721-bf34-b24ff8728c57
+			defaultHierarchy: LocalDateTable_b00f7474-baad-4678-a461-fef3c909dda5.'Jerarquía de fechas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column prediction_date
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 37c32738-13cf-4b51-8479-004a29a3f2c2
+		summarizeBy: none
+		sourceColumn: prediction_date
+
+		variation Variación
+			isDefault
+			relationship: 1f4f8d82-de79-434b-94d8-dca387c3eb00
+			defaultHierarchy: LocalDateTable_32a102da-a47d-4e5e-bb12-55d5f8113a29.'Jerarquía de fechas'
+
+		annotation SummarizationSetBy = Automatic
+
+	column second_purchase_day
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 651b81ad-9cae-43ed-b641-5f53e577ca77
+		summarizeBy: none
+		sourceColumn: second_purchase_day
+
+		variation Variación
+			isDefault
+			relationship: fad00564-cc0a-4d22-8bde-b10a7e7a4365
+			defaultHierarchy: LocalDateTable_509c1f67-3010-4d43-af5d-520c4853a60f.'Jerarquía de fechas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column returned
+		dataType: int64
+		formatString: 0
+		lineageTag: 543cceaa-b977-4b3d-bbae-2eb30b936ee4
+		summarizeBy: sum
+		sourceColumn: returned
+
+		annotation SummarizationSetBy = Automatic
+
+	column revenue
+		dataType: double
+		lineageTag: bb98e85a-7bb9-4ed6-b36b-6e9dd78a1c35
+		summarizeBy: sum
+		sourceColumn: revenue
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column units
+		dataType: int64
+		formatString: 0
+		lineageTag: ad3bed0a-7eef-4526-b8b7-d4f3a42ca01d
+		summarizeBy: sum
+		sourceColumn: units
+
+		annotation SummarizationSetBy = Automatic
+
+	column freight_value
+		dataType: double
+		lineageTag: 231d7e7d-f753-4a2a-b707-e42d2a9d6a26
+		summarizeBy: sum
+		sourceColumn: freight_value
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column freight_share
+		dataType: double
+		lineageTag: 039b429a-7e08-4db4-ab4c-e6f28170b4e7
+		summarizeBy: sum
+		sourceColumn: freight_share
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column installments
+		dataType: int64
+		formatString: 0
+		lineageTag: b9650216-f235-48eb-94e6-374c3601532f
+		summarizeBy: sum
+		sourceColumn: installments
+
+		annotation SummarizationSetBy = Automatic
+
+	column orders
+		dataType: int64
+		formatString: 0
+		lineageTag: 7f07b4b8-05c2-4345-9cf2-e6b4f39f5d58
+		summarizeBy: sum
+		sourceColumn: orders
+
+		annotation SummarizationSetBy = Automatic
+
+	column delivery_days
+		dataType: int64
+		formatString: 0
+		lineageTag: 3dfdb30a-1735-4d65-a3ff-88c466943a61
+		summarizeBy: sum
+		sourceColumn: delivery_days
+
+		annotation SummarizationSetBy = Automatic
+
+	column delay_days
+		dataType: int64
+		formatString: 0
+		lineageTag: 3ea7215d-4239-42e0-9faa-09b7db9517d7
+		summarizeBy: sum
+		sourceColumn: delay_days
+
+		annotation SummarizationSetBy = Automatic
+
+	column review_score
+		dataType: int64
+		formatString: 0
+		lineageTag: 40665d1e-ab4e-4953-b2e8-27a4586bdc24
+		summarizeBy: sum
+		sourceColumn: review_score
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_late
+		dataType: int64
+		formatString: 0
+		lineageTag: 9dc48bd4-b7e1-4e8e-801b-4f05a751480a
+		summarizeBy: sum
+		sourceColumn: is_late
+
+		annotation SummarizationSetBy = Automatic
+
+	column has_review
+		dataType: int64
+		formatString: 0
+		lineageTag: a371d0bd-e9ff-43ce-aee0-45b3dab73f66
+		summarizeBy: sum
+		sourceColumn: has_review
+
+		annotation SummarizationSetBy = Automatic
+
+	column has_comment
+		dataType: int64
+		formatString: 0
+		lineageTag: 74373ac2-6cf2-4358-a524-36a4cc0f47a5
+		summarizeBy: sum
+		sourceColumn: has_comment
+
+		annotation SummarizationSetBy = Automatic
+
+	column region
+		dataType: string
+		lineageTag: 7b58a1f7-a589-4844-91b6-5cb6718c5d88
+		summarizeBy: none
+		sourceColumn: region
+
+		annotation SummarizationSetBy = Automatic
+
+	column payment_type
+		dataType: string
+		lineageTag: f8983ece-406f-4f91-8fc0-a101e890c69e
+		summarizeBy: none
+		sourceColumn: payment_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column main_category
+		dataType: string
+		lineageTag: a881cee3-ae18-405f-9665-4ffe6ebfe2e1
+		summarizeBy: none
+		sourceColumn: main_category
+
+		annotation SummarizationSetBy = Automatic
+
+	column purchase_month
+		dataType: int64
+		formatString: 0
+		lineageTag: ea0d51ae-ba6e-4379-b85b-a19673bbb993
+		summarizeBy: sum
+		sourceColumn: purchase_month
+
+		annotation SummarizationSetBy = Automatic
+
+	column delivery_status = IF ( churn_dataset[is_late] = 1, "Late", "On time" )
+		dataType: string
+		lineageTag: b1468779-d717-4799-91ec-98269118d8ca
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition churn_dataset = m
+		mode: import
+		source =
+				let
+				    Origen = Csv.Document(File.Contents("C:\Users\gianp\OneDrive\Desktop\proyects\data-analytics\data\processed\churn_dataset.csv"),[Delimiter=",", Columns=21, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Encabezados promovidos" = Table.PromoteHeaders(Origen, [PromoteAllScalars=true]),
+				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos",{{"customer_unique_id", type text}, {"purchase_day", type date}, {"prediction_date", type datetime}, {"second_purchase_day", type date}, {"returned", Int64.Type}, {"revenue", type number}, {"units", Int64.Type}, {"freight_value", type number}, {"freight_share", type number}, {"installments", Int64.Type}, {"orders", Int64.Type}, {"delivery_days", Int64.Type}, {"delay_days", Int64.Type}, {"review_score", Int64.Type}, {"is_late", Int64.Type}, {"has_review", Int64.Type}, {"has_comment", Int64.Type}, {"region", type text}, {"payment_type", type text}, {"main_category", type text}, {"purchase_month", Int64.Type}})
+				in
+				    #"Tipo cambiado"
+
+	annotation PBI_ResultType = Table
+

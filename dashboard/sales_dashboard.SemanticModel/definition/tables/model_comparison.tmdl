@@ -1,0 +1,63 @@
+table model_comparison
+	lineageTag: bcf32659-48b2-4131-8380-b43e0f3195bc
+
+	column model
+		dataType: string
+		lineageTag: 9879114a-5c17-4584-b5b3-a8026f3b85d1
+		summarizeBy: none
+		sourceColumn: model
+
+		annotation SummarizationSetBy = Automatic
+
+	column holdout_mae
+		dataType: double
+		lineageTag: 9a1a95b3-a22d-4bae-b617-5f17d2de18fe
+		summarizeBy: sum
+		sourceColumn: holdout_mae
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column holdout_mape_pct
+		dataType: double
+		lineageTag: 63952366-ef12-4d08-a544-a6f2344e285f
+		summarizeBy: sum
+		sourceColumn: holdout_mape_pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column rolling_mae
+		dataType: double
+		lineageTag: dc8ef516-18ea-47a9-b126-dee990d63b0b
+		summarizeBy: sum
+		sourceColumn: rolling_mae
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column rolling_mape_pct
+		dataType: double
+		lineageTag: 1a1f3edf-f9e7-44cc-8f8b-b0ecfe48bd7e
+		summarizeBy: sum
+		sourceColumn: rolling_mape_pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition model_comparison = m
+		mode: import
+		source =
+				let
+				    Origen = Csv.Document(File.Contents("C:\Users\gianp\OneDrive\Desktop\proyects\data-analytics\data\processed\model_comparison.csv"),[Delimiter=",", Columns=5, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Encabezados promovidos" = Table.PromoteHeaders(Origen, [PromoteAllScalars=true]),
+				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos",{{"model", type text}, {"holdout_mae", type number}, {"holdout_mape_pct", type number}, {"rolling_mae", type number}, {"rolling_mape_pct", type number}})
+				in
+				    #"Tipo cambiado"
+
+	annotation PBI_ResultType = Table
+

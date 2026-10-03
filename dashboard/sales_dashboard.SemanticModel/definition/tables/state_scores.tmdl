@@ -1,0 +1,157 @@
+table state_scores
+	lineageTag: 6f913eca-e046-4b3a-91d9-bf19af01fcc2
+
+	column customer_state
+		dataType: string
+		lineageTag: 2888b7f8-31a0-4e79-9975-99cc4964a496
+		summarizeBy: none
+		sourceColumn: customer_state
+
+		annotation SummarizationSetBy = Automatic
+
+	column region
+		dataType: string
+		lineageTag: 43907609-0eda-491c-862d-e96038dfe234
+		summarizeBy: none
+		sourceColumn: region
+
+		annotation SummarizationSetBy = Automatic
+
+	column customers
+		dataType: int64
+		formatString: 0
+		lineageTag: 447b20cd-2da3-4b2f-8035-427c82518aac
+		summarizeBy: sum
+		sourceColumn: customers
+
+		annotation SummarizationSetBy = Automatic
+
+	column orders
+		dataType: int64
+		formatString: 0
+		lineageTag: 5383dbf5-ea53-4718-b223-eeeab231edfb
+		summarizeBy: sum
+		sourceColumn: orders
+
+		annotation SummarizationSetBy = Automatic
+
+	column revenue
+		dataType: double
+		lineageTag: bb4e1a54-d84d-4f1e-b78e-6ecca4e69f0b
+		summarizeBy: sum
+		sourceColumn: revenue
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column avg_ticket
+		dataType: double
+		lineageTag: d22797c3-7e41-4973-acb4-97d10895ef86
+		summarizeBy: sum
+		sourceColumn: avg_ticket
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column avg_freight
+		dataType: double
+		lineageTag: f22d0cd2-6a56-4847-993d-ca5a76a11a09
+		summarizeBy: sum
+		sourceColumn: avg_freight
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column late_pct
+		dataType: double
+		lineageTag: 66d64df3-c6ca-4a77-836c-dc641998bc86
+		summarizeBy: sum
+		sourceColumn: late_pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column median_delivery_days
+		dataType: int64
+		formatString: 0
+		lineageTag: 60325b45-fc17-4181-b6e6-b734b31ea9ab
+		summarizeBy: sum
+		sourceColumn: median_delivery_days
+
+		annotation SummarizationSetBy = Automatic
+
+	column customers_pct
+		dataType: double
+		lineageTag: 571384c9-ab65-4d4e-887b-34c2d0d5de5d
+		summarizeBy: sum
+		sourceColumn: customers_pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column median_distance_km
+		dataType: double
+		lineageTag: 98ef0d72-6d6b-49ec-b5f5-af1c865546b3
+		summarizeBy: sum
+		sourceColumn: median_distance_km
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column demand_score
+		dataType: double
+		lineageTag: 179e9a35-d71e-4f22-9295-76d8af32c08f
+		summarizeBy: sum
+		sourceColumn: demand_score
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column service_gap_score
+		dataType: double
+		lineageTag: 3b542ed9-6722-4945-9019-060ce98631ba
+		summarizeBy: sum
+		sourceColumn: service_gap_score
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column score
+		dataType: double
+		lineageTag: 7caf543f-7b2c-445f-8f1e-5847dd955f11
+		summarizeBy: sum
+		sourceColumn: score
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column rank
+		dataType: int64
+		formatString: 0
+		lineageTag: e70483de-9975-4112-adc4-11715bfd833a
+		summarizeBy: sum
+		sourceColumn: rank
+
+		annotation SummarizationSetBy = Automatic
+
+	partition state_scores = m
+		mode: import
+		source =
+				let
+				    Origen = Csv.Document(File.Contents("C:\Users\gianp\OneDrive\Desktop\proyects\data-analytics\data\processed\state_scores.csv"),[Delimiter=",", Columns=15, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Encabezados promovidos" = Table.PromoteHeaders(Origen, [PromoteAllScalars=true]),
+				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos",{{"customer_state", type text}, {"region", type text}, {"customers", Int64.Type}, {"orders", Int64.Type}, {"revenue", type number}, {"avg_ticket", type number}, {"avg_freight", type number}, {"late_pct", type number}, {"median_delivery_days", Int64.Type}, {"customers_pct", type number}, {"median_distance_km", type number}, {"demand_score", type number}, {"service_gap_score", type number}, {"score", type number}, {"rank", Int64.Type}})
+				in
+				    #"Tipo cambiado"
+
+	annotation PBI_ResultType = Table
+

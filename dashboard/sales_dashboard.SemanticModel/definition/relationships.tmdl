@@ -1,0 +1,75 @@
+relationship 02677ec4-d423-48a6-b706-7f2cd3f66e6d
+	joinOnDateBehavior: datePartOnly
+	fromColumn: category_monthly.month
+	toColumn: LocalDateTable_8ff675bd-7ce0-4428-bbc5-7591f4125052.Date
+
+relationship AutoDetected_f946f0df-a590-415e-84c3-99d7254c1d90
+	fromColumn: category_monthly.category
+	toColumn: category_summary.category
+
+relationship a7a7d8cb-bfe6-4721-bf34-b24ff8728c57
+	joinOnDateBehavior: datePartOnly
+	fromColumn: churn_dataset.purchase_day
+	toColumn: LocalDateTable_b00f7474-baad-4678-a461-fef3c909dda5.Date
+
+relationship 1f4f8d82-de79-434b-94d8-dca387c3eb00
+	joinOnDateBehavior: datePartOnly
+	fromColumn: churn_dataset.prediction_date
+	toColumn: LocalDateTable_32a102da-a47d-4e5e-bb12-55d5f8113a29.Date
+
+relationship fad00564-cc0a-4d22-8bde-b10a7e7a4365
+	joinOnDateBehavior: datePartOnly
+	fromColumn: churn_dataset.second_purchase_day
+	toColumn: LocalDateTable_509c1f67-3010-4d43-af5d-520c4853a60f.Date
+
+relationship 11b729f2-984e-4662-8250-1b2644994013
+	joinOnDateBehavior: datePartOnly
+	fromColumn: customer_return_scores.purchase_day
+	toColumn: LocalDateTable_214897e2-8e7d-4b53-b160-6d6b5c87c906.Date
+
+relationship 2a3311de-373b-444f-8125-c4762435233c
+	joinOnDateBehavior: datePartOnly
+	fromColumn: forecast_categories.month
+	toColumn: LocalDateTable_4bd14151-538a-42cf-b18d-6699b0502b44.Date
+
+relationship AutoDetected_a0cc3eb7-d1a2-4848-b52c-31fabae98ae7
+	fromColumn: forecast_categories.category
+	toColumn: category_summary.category
+
+relationship f6034960-62a6-48e0-afda-ecb98b82d07b
+	joinOnDateBehavior: datePartOnly
+	fromColumn: forecast_total.month
+	toColumn: LocalDateTable_799d87a2-f2cb-4ece-b27e-f90aee933a9d.Date
+
+relationship 07091465-179b-4e7c-972e-724fc0ce854c
+	joinOnDateBehavior: datePartOnly
+	fromColumn: monthly_sales.month
+	toColumn: LocalDateTable_8ce6088f-a73d-43b4-b563-5887c674d6a9.Date
+
+relationship e24d78e6-006b-43db-9731-8bf8020708eb
+	joinOnDateBehavior: datePartOnly
+	fromColumn: product_abc.first_sale
+	toColumn: LocalDateTable_56c7a6e8-2f60-4ded-97c0-e008ac90f7af.Date
+
+relationship d683e0a3-278c-4522-85dc-d6f430e51a0c
+	joinOnDateBehavior: datePartOnly
+	fromColumn: product_abc.last_sale
+	toColumn: LocalDateTable_996de8e8-f883-490f-80c8-81fc064e1a40.Date
+
+relationship AutoDetected_d329ae20-9626-45f5-81b2-71d28e1ec063
+	fromColumn: product_abc.category
+	toColumn: category_summary.category
+
+relationship AutoDetected_87e29996-1711-4031-9f53-bfdbdcc1f122
+	fromColumn: customer_return_scores.customer_state
+	toColumn: state_scores.customer_state
+
+relationship ca195c09-369c-1243-d42b-b833d15b9bad
+	fromColumn: city_summary.customer_state
+	toColumn: state_scores.customer_state
+
+relationship 8ccbe366-c824-4dc4-ba79-81fbe74c7913
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Units timeline'.month
+	toColumn: LocalDateTable_5744e00c-5e61-4eb3-9289-c2fa2cfb5b39.Date
+

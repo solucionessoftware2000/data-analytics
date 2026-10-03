@@ -1,0 +1,43 @@
+model Model
+	culture: es-ES
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: es-PE
+	valueFilterBehavior: independent
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_QueryOrder = ["category_monthly","category_summary","churn_dataset","churn_model_metrics","city_summary","customer_return_scores","forecast_categories","forecast_total","model_comparison","monthly_sales","product_abc","state_scores"]
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table category_monthly
+ref table DateTableTemplate_4d1d6392-c943-43cb-bfde-c28d3effda4c
+ref table LocalDateTable_8ff675bd-7ce0-4428-bbc5-7591f4125052
+ref table category_summary
+ref table churn_dataset
+ref table LocalDateTable_b00f7474-baad-4678-a461-fef3c909dda5
+ref table LocalDateTable_32a102da-a47d-4e5e-bb12-55d5f8113a29
+ref table LocalDateTable_509c1f67-3010-4d43-af5d-520c4853a60f
+ref table churn_model_metrics
+ref table city_summary
+ref table customer_return_scores
+ref table LocalDateTable_214897e2-8e7d-4b53-b160-6d6b5c87c906
+ref table forecast_categories
+ref table LocalDateTable_4bd14151-538a-42cf-b18d-6699b0502b44
+ref table forecast_total
+ref table LocalDateTable_799d87a2-f2cb-4ece-b27e-f90aee933a9d
+ref table model_comparison
+ref table monthly_sales
+ref table LocalDateTable_8ce6088f-a73d-43b4-b563-5887c674d6a9
+ref table product_abc
+ref table LocalDateTable_56c7a6e8-2f60-4ded-97c0-e008ac90f7af
+ref table LocalDateTable_996de8e8-f883-490f-80c8-81fc064e1a40
+ref table state_scores
+ref table 'Units timeline'
+ref table LocalDateTable_5744e00c-5e61-4eb3-9289-c2fa2cfb5b39
+
+ref cultureInfo es-ES
+

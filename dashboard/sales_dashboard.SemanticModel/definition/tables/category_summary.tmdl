@@ -1,0 +1,156 @@
+table category_summary
+	lineageTag: d4ce984d-8f8b-4a55-abf9-898c5bf48be3
+
+	column category
+		dataType: string
+		lineageTag: d38c28d1-8268-418a-91e6-c515de6c104f
+		summarizeBy: none
+		sourceColumn: category
+
+		annotation SummarizationSetBy = Automatic
+
+	column revenue
+		dataType: double
+		lineageTag: e035fc3d-e87c-4c27-b1eb-1a5e98aa1129
+		summarizeBy: sum
+		sourceColumn: revenue
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column units
+		dataType: int64
+		formatString: 0
+		lineageTag: 49815932-9150-48e2-b11e-16ccf63a64d7
+		summarizeBy: sum
+		sourceColumn: units
+
+		annotation SummarizationSetBy = Automatic
+
+	column products
+		dataType: int64
+		formatString: 0
+		lineageTag: b9dc1224-f653-409b-8ae6-313c8fdfd7a7
+		summarizeBy: sum
+		sourceColumn: products
+
+		annotation SummarizationSetBy = Automatic
+
+	column avg_price
+		dataType: double
+		lineageTag: cef14995-09cc-4c95-aca6-ef0f038a6833
+		summarizeBy: sum
+		sourceColumn: avg_price
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column revenue_pct
+		dataType: double
+		lineageTag: 08824e09-33c8-4e6b-a921-f23172d59500
+		summarizeBy: sum
+		sourceColumn: revenue_pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column cumulative_pct
+		dataType: double
+		lineageTag: ae4fbfb5-c9e6-4ec5-98e8-e442fff6cca1
+		summarizeBy: sum
+		sourceColumn: cumulative_pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column rank_by_revenue
+		dataType: int64
+		formatString: 0
+		lineageTag: 826a44fb-d67a-4ba5-9212-3f46d02c44eb
+		summarizeBy: sum
+		sourceColumn: rank_by_revenue
+
+		annotation SummarizationSetBy = Automatic
+
+	column rank_by_units
+		dataType: int64
+		formatString: 0
+		lineageTag: 9855acc4-116b-4f8c-9137-0a65ab0cd65d
+		summarizeBy: sum
+		sourceColumn: rank_by_units
+
+		annotation SummarizationSetBy = Automatic
+
+	column abc_class
+		dataType: string
+		lineageTag: 41a8de68-06f9-45ab-81a7-f17aaf5f97b9
+		summarizeBy: none
+		sourceColumn: abc_class
+
+		annotation SummarizationSetBy = Automatic
+
+	column a_products_pct
+		dataType: double
+		lineageTag: 3f3c2cff-95f4-4262-bab7-6a2e2535dfba
+		summarizeBy: sum
+		sourceColumn: a_products_pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column slow_movers
+		dataType: int64
+		formatString: 0
+		lineageTag: e2a5b1f0-7faa-49c5-a8a6-5b6b1ccc4b51
+		summarizeBy: sum
+		sourceColumn: slow_movers
+
+		annotation SummarizationSetBy = Automatic
+
+	column share_2017_pct
+		dataType: double
+		lineageTag: 50f43f05-7854-4bf9-bf6f-2a65328fd552
+		summarizeBy: sum
+		sourceColumn: share_2017_pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column share_2018_pct
+		dataType: double
+		lineageTag: 04a410fa-2d9e-4019-8cb0-ee86f9d16ce0
+		summarizeBy: sum
+		sourceColumn: share_2018_pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column change_pp
+		dataType: double
+		lineageTag: a46f3768-208e-4e11-bbf8-976065119326
+		summarizeBy: sum
+		sourceColumn: change_pp
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition category_summary = m
+		mode: import
+		source =
+				let
+				    Origen = Csv.Document(File.Contents("C:\Users\gianp\OneDrive\Desktop\proyects\data-analytics\data\processed\category_summary.csv"),[Delimiter=",", Columns=15, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Encabezados promovidos" = Table.PromoteHeaders(Origen, [PromoteAllScalars=true]),
+				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos",{{"category", type text}, {"revenue", type number}, {"units", Int64.Type}, {"products", Int64.Type}, {"avg_price", type number}, {"revenue_pct", type number}, {"cumulative_pct", type number}, {"rank_by_revenue", Int64.Type}, {"rank_by_units", Int64.Type}, {"abc_class", type text}, {"a_products_pct", type number}, {"slow_movers", Int64.Type}, {"share_2017_pct", type number}, {"share_2018_pct", type number}, {"change_pp", type number}})
+				in
+				    #"Tipo cambiado"
+
+	annotation PBI_ResultType = Table
+

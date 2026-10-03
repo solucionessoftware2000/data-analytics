@@ -1,0 +1,97 @@
+table monthly_sales
+	lineageTag: 8f0c68d7-8de1-4235-806b-00208f9f5def
+
+	column month
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 1d367c48-33c9-4de8-b5b1-30ead67ffc89
+		summarizeBy: none
+		sourceColumn: month
+
+		variation Variación
+			isDefault
+			relationship: 07091465-179b-4e7c-972e-724fc0ce854c
+			defaultHierarchy: LocalDateTable_8ce6088f-a73d-43b4-b563-5887c674d6a9.'Jerarquía de fechas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column orders
+		dataType: int64
+		formatString: 0
+		lineageTag: 6513495a-630f-4158-9db5-20f37e4d2e3a
+		summarizeBy: sum
+		sourceColumn: orders
+
+		annotation SummarizationSetBy = Automatic
+
+	column units
+		dataType: int64
+		formatString: 0
+		lineageTag: 193a9206-0447-49af-9cad-b5be55e9d154
+		summarizeBy: sum
+		sourceColumn: units
+
+		annotation SummarizationSetBy = Automatic
+
+	column revenue
+		dataType: double
+		lineageTag: 865aaffe-cf63-4319-aabe-8446bf9fea5a
+		summarizeBy: sum
+		sourceColumn: revenue
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column avg_ticket
+		dataType: double
+		lineageTag: 882753c9-16f4-4fd2-94f7-9438857a1c70
+		summarizeBy: sum
+		sourceColumn: avg_ticket
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column customers
+		dataType: int64
+		formatString: 0
+		lineageTag: d714bdd0-3304-4b9a-8306-dbfdd3de0a15
+		summarizeBy: sum
+		sourceColumn: customers
+
+		annotation SummarizationSetBy = Automatic
+
+	column orders_per_day
+		dataType: double
+		lineageTag: 086e5dd8-53a2-44f1-9857-6c466d755792
+		summarizeBy: sum
+		sourceColumn: orders_per_day
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column is_complete_month
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: de359bce-9e57-4852-b6db-323e67751fa8
+		summarizeBy: none
+		sourceColumn: is_complete_month
+
+		annotation SummarizationSetBy = Automatic
+
+	partition monthly_sales = m
+		mode: import
+		source =
+				let
+				    Origen = Csv.Document(File.Contents("C:\Users\gianp\OneDrive\Desktop\proyects\data-analytics\data\processed\monthly_sales.csv"),[Delimiter=",", Columns=8, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Encabezados promovidos" = Table.PromoteHeaders(Origen, [PromoteAllScalars=true]),
+				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos",{{"month", type date}, {"orders", Int64.Type}, {"units", Int64.Type}, {"revenue", type number}, {"avg_ticket", type number}, {"customers", Int64.Type}, {"orders_per_day", type number}, {"is_complete_month", type logical}})
+				in
+				    #"Tipo cambiado"
+
+	annotation PBI_ResultType = Table
+
